@@ -12,7 +12,10 @@ define( 'UCFWP_THEME_TEMPLATE_PARTS_PATH', 'template-parts' );
 define( 'UCFWP_THEME_CUSTOMIZER_PREFIX', 'ucfwp_' );
 define( 'UCFWP_MAINSITE_NAV_URL', 'https://www.ucf.edu/wp-json/ucf-rest-menus/v1/menus/23' );
 define( 'UCFWP_THEME_CUSTOMIZER_DEFAULTS', serialize( array(
-	'person_thumbnail' => UCFWP_THEME_STATIC_URL . '/img/person-no-photo.png'
+	'person_thumbnail'                 => UCFWP_THEME_IMG_URL . '/person-no-photo.png',
+	'default_header_setting'           => 'predefined',
+	'predefined_default_header'        => 'light-lines',
+	'custom_default_header_text_color' => 'black-text'
 ) ) );
 
 
@@ -101,6 +104,14 @@ function ucfwp_define_customizer_sections( $wp_customize ) {
 		UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics',
 		array(
 			'title' => 'Analytics'
+		)
+	);
+
+	$wp_customize->add_section(
+		UCFWP_THEME_CUSTOMIZER_PREFIX . 'default_header',
+		array(
+			'title' => 'Default Header',
+			'description' => 'The default header is shown on pages that do not have background images set or are not set to display custom header content. You are able to select or upload a default image that will be shown for all pages throughout the site that utilize the default header.'
 		)
 	);
 }
@@ -216,6 +227,111 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 			'label'       => 'Chartbeat Domain',
 			'description' => 'Example: <em>some.domain.com</em>',
 			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'analytics'
+		)
+	);
+
+	// Default Header
+	$wp_customize->add_setting(
+		'default_header_setting',
+		array(
+			'default' => 'predefined'
+		)
+	);
+
+	$wp_customize->add_control(
+		'default_header_setting',
+		array(
+			'type'        => 'radio',
+			'label'       => 'Default Header Background',
+			'choices'     => array(
+				'predefined' => 'Choose from predefined images',
+				'upload-custom'  => 'Upload custom image'
+			),
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'default_header'
+		)
+	);
+
+	$wp_customize->add_setting(
+		'predefined_default_header',
+		array(
+			'default' => 'light-geometric'
+		)
+	);
+
+	$wp_customize->add_control(
+		'predefined_default_header',
+		array(
+			'type'        => 'select',
+			'label'       => __( 'Select Image' ),
+			'description' => 'Select from the predefined images that come with this theme.',
+			'choices'     => array(
+				'light-lines'  => 'Light Lines',
+				'light-statue' => 'Light Statue',
+				'dark-lines'   => 'Dark Lines',
+				'dark-statue'  => 'Dark Statue'
+			),
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'default_header'
+		)
+	);
+
+	$wp_customize->add_setting(
+		'upload_custom_default_header_sm_plus'
+	);
+
+	$wp_customize->add_control(
+		new WP_Customize_Cropped_Image_Control(
+			$wp_customize,
+			'upload_custom_default_header_sm_plus',
+			array(
+				'label'       => __( 'Upload Image (-sm+)' ),
+				'description' => 'Upload a 1600x300 image that will display at the -sm breakpoint and up. Please note that these images should allow either black or white text (select text color below)to sit on top of it and pass <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#qr-visual-audio-contrast-contrast" target="_blank">AA WCAG2 standards</a>.',
+				'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'default_header',
+				'width'       => 1600,
+				'height'      => 300,
+				'flex_width'  => false,
+				'flex_height' => false
+			)
+		)
+	);
+
+	$wp_customize->add_setting(
+		'upload_custom_default_header_xs'
+	);
+
+	$wp_customize->add_control(
+		new WP_Customize_Cropped_Image_Control(
+			$wp_customize,
+			'upload_custom_default_header_xs',
+			array(
+				'label'       => __( 'Upload Image (-xs)' ),
+				'description' => 'Upload a 375x250 image that will display at the -xs breakpoint. Please note that these images should allow either black or white text (select text color below) to sit on top of it and pass <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#qr-visual-audio-contrast-contrast" target="_blank">AA WCAG2 standards</a>.',
+				'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'default_header',
+				'width'       => 375,
+				'height'      => 250,
+				'flex_width'  => false,
+				'flex_height' => false
+			)
+		)
+	);
+
+	$wp_customize->add_setting(
+		'custom_default_header_text_color',
+		array(
+			'default' => 'dark-text'
+		)
+	);
+
+	$wp_customize->add_control(
+		'custom_default_header_text_color',
+		array(
+			'type'        => 'radio',
+			'label'       => __( 'Choose Text Color' ),
+			'description' => 'Choose the text color that enables the headline and/or subtitle to meet <a href="https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0#qr-visual-audio-contrast-contrast" target="_blank">AA WCAG2 standards</a> on top of your uploaded default header image. Generally, the black text option should be selected for lighter images, and the white text option should be selected for darker images.',
+			'choices'     => array(
+				'black-text' => 'Black Text',
+				'white-text' => 'White Text'
+			),
+			'section'     => UCFWP_THEME_CUSTOMIZER_PREFIX . 'default_header'
 		)
 	);
 }
