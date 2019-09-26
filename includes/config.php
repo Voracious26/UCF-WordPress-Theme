@@ -254,7 +254,7 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 	$wp_customize->add_setting(
 		'predefined_default_header',
 		array(
-			'default' => 'light-geometric'
+			'default' => 'light-lines'
 		)
 	);
 
