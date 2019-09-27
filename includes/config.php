@@ -317,7 +317,7 @@ function ucfwp_define_customizer_fields( $wp_customize ) {
 	$wp_customize->add_setting(
 		'custom_default_header_text_color',
 		array(
-			'default' => 'dark-text'
+			'default' => 'black-text'
 		)
 	);
 
