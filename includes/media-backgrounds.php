@@ -147,3 +147,24 @@ if ( ! function_exists( 'ucfwp_get_media_background_video' ) ) {
 		return ob_get_clean();
 	}
 }
+
+
+/**
+ * Returns an array of srcs for the predefined default header selected. 
+ *
+ * @author Cadie Stockman
+ * @since 0.6.0
+ * @param  string $predefined_header_setting The selected predefined default header selection
+ * @return array Image srcs
+ */
+if ( ! function_exists( 'ucfwp_get_default_header_predefined_settings' ) ) {
+	function ucfwp_get_default_header_predefined_background_picture_srcs( $predefined_header_setting ) {
+		$retval = array();
+
+		// TODO: Check if file exists before adding it?
+		$retval['fallback'] = UCFWP_THEME_IMG_URL . '/default-headers/' . $predefined_header_setting . '.jpg';
+		$retval['xs'] = UCFWP_THEME_IMG_URL . '/default-headers/' . $predefined_header_setting . '-xs.jpg';
+
+		return $retval;
+	}
+}

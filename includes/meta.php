@@ -35,6 +35,20 @@ add_action( 'wp_enqueue_scripts', 'ucfwp_enqueue_frontend_assets' );
 
 
 /**
+ * Enqueue admin customize scripts
+ */
+function ucfwp_enqueue_customize_admin_scripts() {
+	if ( is_admin() ) {
+		$theme = wp_get_theme( 'UCF-WordPress-Theme' );
+		$theme_version = ( $theme instanceof WP_Theme ) ? $theme->get( 'Version' ) : false;
+		wp_enqueue_script( 'admin', UCFWP_THEME_JS_URL . '/admin.min.js', array( 'jquery' ), $theme_version, true );
+	}
+}
+
+add_action( 'customize_controls_enqueue_scripts', 'ucfwp_enqueue_customize_admin_scripts' );
+
+
+/**
  * De-register and re-register a newer version of jquery early in the
  * document head.
  *

@@ -328,3 +328,47 @@ if ( !function_exists( 'ucfwp_get_header_content_markup' ) ) {
 		return apply_filters( 'ucfwp_get_header_content_markup', $retval, $obj );
 	}
 }
+
+
+/**
+ * Returns either 'bg-secondary' or 'bg-inverse' based on what's selected
+ * as the default header background image or what's set for the 
+ * text color customizer option. 
+ *
+ * @author Cadie Stockman
+ * @since 0.6.0
+ * @return string The bg class to be used on the default header div
+ */
+if ( ! function_exists( 'ucfwp_get_default_header_bg_class' ) ) {
+	function ucfwp_get_default_header_bg_class( $default_header_setting ) {
+		$retval = '';
+
+		switch ( $default_header_setting ) {
+			case 'predefined':
+				$customizer_img_selection = ucfwp_get_theme_mod_or_default( 'predefined_default_header' );
+
+				if ( substr( $customizer_img_selection, 0, 5 ) === "light" ) {
+					$retval = 'bg-secondary';
+				} elseif ( substr( $customizer_img_selection, 0, 4 ) === "dark" ) {
+					$retval = 'bg-inverse';
+				}
+				break;
+			
+			case 'upload-custom':
+				$customizer_text_color = ucfwp_get_theme_mod_or_default( 'custom_default_header_text_color' );
+
+				if ( $customizer_text_color === 'black-text' ) {
+					$retval = 'bg-secondary';
+				} elseif ( $customizer_text_color === 'white-text' ) {
+					$retval = 'bg-inverse';
+				}
+				break;
+
+			default:
+				$retval = '';
+				break;
+		}
+
+		return $retval;
+	}
+}
